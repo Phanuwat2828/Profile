@@ -3,10 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio Premium</title>
+    <title>Phanuwat Khamtha</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        /* CSS สำหรับ spinner */
+        .spinner {
+            border: 4px solid #f3f3f3; /* สีพื้นหลัง */
+            border-top: 4px solid  #8b5cf6; /* สีที่หมุน */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 2s linear infinite; /* หมุน 2 วินาที */
+            margin: 0 auto; /* จัดตำแหน่งให้อยู่ตรงกลาง */
+        }
+    
+        /* @keyframes สำหรับการหมุน */
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg); /* เริ่มหมุนจาก 0 องศา */
+            }
+            100% {
+                transform: rotate(360deg); /* หมุนไปจนถึง 360 องศา */
+            }
+        }
+    </style>
     <script>
         tailwind.config = {
             theme: {
@@ -37,6 +59,14 @@
                 }
             }
         }
+    </script>
+    <script>
+       const api = 'https://script.google.com/macros/s/AKfycbxkXUNW-_foyc3VogoEg29vMnVjpUPpkVTbbkMCPR0KeY4L8D1-omVgk20dlscXbRdE/exec';
+        // fetch('https://script.google.com/macros/s/AKfycbytQwFt42pz2UkdJ3G8wq6JEslQH2HQsxbiU1b5jCRoQxMgmyWt3Q_3FPiW9dZC-8C7/exec?path=tools')
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         console.log(data);
+        //     });
     </script>
     <style>
         .glass-card {
@@ -74,7 +104,7 @@
         <section class="flex flex-col lg:flex-row items-center justify-between gap-12 mb-24">
             <div class="lg:w-1/2 animate__animated animate__fadeInLeft">
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-                    สวัสดีครับ, ผมคือ <span class="gradient-text">ภาณุวัฒน์ คำทา</span>
+                    สวัสดีครับ <br>ผม <span class="gradient-text">ภาณุวัฒน์ คำทา</span>
                 </h1>
                 <p class="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed">
                     สวัสดีครับ! ผมเป็น Programer พัฒนาทั้ง Font-end และ back-end นี้ผลงานและประสบการณ์ของผม
@@ -92,7 +122,7 @@
             <div class="lg:w-1/2 flex justify-center animate__animated animate__fadeInRight">
                 <div class="relative">
                     <div class="w-64 h-64 md:w-80 md:h-80 rounded-2xl overflow-hidden border-4 border-white/20 shadow-2xl relative z-10">
-                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=688&q=80" 
+                        <img src="./image/profile.jpg" 
                              alt="Profile Image" 
                              class="w-full h-full object-cover">
                     </div>
@@ -105,103 +135,150 @@
         <!-- Skills Section -->
         <section class="mb-24 animate__animated animate__fadeInUp" id="skills">
             <h2 class="text-3xl font-bold mb-12 text-center gradient-text">ทักษะความสามารถ</h2>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            <div id="loading1" class="loading w-full flex items-center" style="display: none; text-align: center; font-size: 20px; color: #666;" >
+                <div class="spinner"></div>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 " id="mySkill">
                 <!-- Skill 1 -->
-                <div class="glass-card p-6 rounded-xl hover:bg-white/20 transition-all duration-300 group">
-                    <div class="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-4 mx-auto group-hover:rotate-12 transition-transform duration-500">
-                        <i class="fab fa-html5 text-3xl text-[#E34F26]"></i>
-                    </div>
-                    <h3 class="text-center font-medium mb-2">HTML5</h3>
-                    <div class="h-1.5 bg-gray-700 rounded-full overflow-hidden">
-                        <div class="h-full bg-[#E34F26] rounded-full" style="width: 95%"></div>
-                    </div>
-                </div>
+                <script>
+                     const loadingElement = document.getElementById('loading1');
+                     loadingElement.style.display = 'inline-block';  // แสดงข้อความ Loading
+                    const sdiv = document.getElementById('mySkill');
+                    
+                    async function loadSkill(){
+                        try{
+                            const response = await fetch(api + "?path=mySkill");
+                            const reserved = await response.json();
+                            
+                            reserved.forEach(function(item){
+                                // สร้าง div สำหรับแต่ละ skill
+                                const skillCard = document.createElement('div');
+                                skillCard.classList.add('glass-card', 'p-6', 'rounded-xl', 'hover:bg-white/20', 'transition-all', 'duration-300', 'group');
+                                
+                                // สร้าง div สำหรับ icon
+                                const iconDiv = document.createElement('div');
+                                iconDiv.classList.add('w-16', 'h-16', 'bg-primary/10', 'rounded-lg', 'flex', 'items-center', 'justify-center', 'mb-4', 'mx-auto', 'group-hover:rotate-12', 'transition-transform', 'duration-500');
+                                
+                                // สร้าง image สำหรับ icon
+                                const iconImg = document.createElement('img');
+                                iconImg.classList.add('fab', 'fa-html5', 'text-3xl', 'text-[#E34F26]', 'rounded-lg');
+                                iconImg.src = item['s_image']; // ปรับตามข้อมูลที่ได้รับจาก API
+                                iconDiv.appendChild(iconImg);
+                                skillCard.appendChild(iconDiv);
+                                
+                                // สร้างชื่อของ skill
+                                const title = document.createElement('h3');
+                                title.classList.add('text-center', 'font-medium', 'mb-2');
+                                title.textContent = item['s_name']; // ปรับตามข้อมูลที่ได้รับจาก API
+                                skillCard.appendChild(title);
+                                
+                                // สร้าง progress bar
+                                const progressBarContainer = document.createElement('div');
+                                progressBarContainer.classList.add('h-1.5', 'bg-gray-700', 'rounded-full', 'overflow-hidden');
+                                
+                                const progressBar = document.createElement('div');
+                                progressBar.classList.add('h-full', `bg-[${item['s_color']}]`, 'rounded-full');
+                                progressBar.style.width = item['s_per'] + '%'; // ใช้ข้อมูล progress จาก API
+                                
+                                progressBarContainer.appendChild(progressBar);
+                                skillCard.appendChild(progressBarContainer);
+                                
+                                // เพิ่ม skillCard ลงใน sdiv
+                                sdiv.appendChild(skillCard);
+                            })
+                            loadingElement.style.display = 'none'; 
+                        } catch(err){
+                            console.log(err);
+                        }
+                    }
                 
-                <!-- Skill 2 -->
-                <div class="glass-card p-6 rounded-xl hover:bg-white/20 transition-all duration-300 group">
-                    <div class="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-4 mx-auto group-hover:rotate-12 transition-transform duration-500">
-                        <i class="fab fa-css3-alt text-3xl text-[#1572B6]"></i>
-                    </div>
-                    <h3 class="text-center font-medium mb-2">CSS3</h3>
-                    <div class="h-1.5 bg-gray-700 rounded-full overflow-hidden">
-                        <div class="h-full bg-[#1572B6] rounded-full" style="width: 90%"></div>
-                    </div>
-                </div>
+                    loadSkill();
+                </script>
                 
-                <!-- Skill 3 -->
-                <div class="glass-card p-6 rounded-xl hover:bg-white/20 transition-all duration-300 group">
-                    <div class="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-4 mx-auto group-hover:rotate-12 transition-transform duration-500">
-                        <i class="fab fa-js text-3xl text-[#F7DF1E]"></i>
-                    </div>
-                    <h3 class="text-center font-medium mb-2">JavaScript</h3>
-                    <div class="h-1.5 bg-gray-700 rounded-full overflow-hidden">
-                        <div class="h-full bg-[#F7DF1E] rounded-full" style="width: 85%"></div>
-                    </div>
-                </div>
                 
-                <!-- Skill 4 -->
-                <div class="glass-card p-6 rounded-xl hover:bg-white/20 transition-all duration-300 group">
-                    <div class="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-4 mx-auto group-hover:rotate-12 transition-transform duration-500">
-                        <i class="fab fa-react text-3xl text-[#61DAFB]"></i>
-                    </div>
-                    <h3 class="text-center font-medium mb-2">React</h3>
-                    <div class="h-1.5 bg-gray-700 rounded-full overflow-hidden">
-                        <div class="h-full bg-[#61DAFB] rounded-full" style="width: 80%"></div>
-                    </div>
-                </div>
-                
-                <!-- Skill 5 -->
-                <div class="glass-card p-6 rounded-xl hover:bg-white/20 transition-all duration-300 group">
-                    <div class="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-4 mx-auto group-hover:rotate-12 transition-transform duration-500">
-                        <i class="fab fa-figma text-3xl text-[#F24E1E]"></i>
-                    </div>
-                    <h3 class="text-center font-medium mb-2">Figma</h3>
-                    <div class="h-1.5 bg-gray-700 rounded-full overflow-hidden">
-                        <div class="h-full bg-[#F24E1E] rounded-full" style="width: 88%"></div>
-                    </div>
-                </div>
+            
             </div>
         </section>
 
         <!-- Work Section -->
         <section class="mb-24 animate__animated animate__fadeInUp" id="work">
             <h2 class="text-3xl font-bold mb-12 text-center gradient-text">ผลงานล่าสุด</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div id="loading" class="loading w-full flex items-center" style="display: none; text-align: center; font-size: 20px; color: #666;" >
+                <div class="spinner"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="project">
                 <!-- Project 1 -->
-                <div class="group relative overflow-hidden rounded-2xl shadow-2xl">
-                    <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/70 z-10"></div>
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
-                         alt="Project 1" 
-                         class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-700">
-                    <div class="absolute bottom-0 left-0 p-6 z-20 w-full">
-                        <h3 class="text-2xl font-bold text-white mb-2">ระบบจัดการร้านค้าออนไลน์</h3>
-                        <p class="text-gray-300 mb-4">แพลตฟอร์มครบวงจรสำหรับบริหารธุรกิจอีคอมเมิร์ซ</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full text-sm text-white">React</span>
-                            <span class="px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full text-sm text-white">Node.js</span>
-                            <span class="px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full text-sm text-white">MongoDB</span>
-                        </div>
-                    </div>
-                </div>
+                <script>
+                    async function loadData() {
+                        // แสดงข้อความ Loading ตอนที่ข้อมูลกำลังโหลด
+                        const loadingElement = document.getElementById('loading');
+                        loadingElement.style.display = 'inline-block';  // แสดงข้อความ Loading
                 
-                <!-- Project 2 -->
-                <div class="group relative overflow-hidden rounded-2xl shadow-2xl">
-                    <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/70 z-10"></div>
-                    <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
-                         alt="Project 2" 
-                         class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-700">
-                    <div class="absolute bottom-0 left-0 p-6 z-20 w-full">
-                        <h3 class="text-2xl font-bold text-white mb-2">แอปท่องเที่ยวไทย</h3>
-                        <p class="text-gray-300 mb-4">แอปพลิเคชันแนะนำสถานที่ท่องเที่ยวในประเทศไทย</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full text-sm text-white">Flutter</span>
-                            <span class="px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full text-sm text-white">Firebase</span>
-                            <span class="px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full text-sm text-white">UI Design</span>
-                        </div>
-                    </div>
-                </div>
+                        try {
+                            const response = await fetch(api + "?path=myProject");
+                            const reserved = await response.json();
+                            const e = document.getElementById('project');
+                            
+                            // ลบข้อความ Loading เมื่อข้อมูลโหลดเสร็จแล้ว
+                            
+                
+                            reserved.forEach(function(item) {
+                                // สร้าง div สำหรับแต่ละ project
+                                const projectDiv = document.createElement('div');
+                                projectDiv.classList.add('group', 'relative', 'overflow-hidden', 'rounded-2xl', 'shadow-2xl');
+                                
+                                // สร้าง background overlay
+                                const overlay = document.createElement('div');
+                                overlay.classList.add('absolute', 'inset-0', 'bg-gradient-to-b', 'from-transparent', 'to-black/70', 'z-10');
+                                projectDiv.appendChild(overlay);
+                        
+                                // สร้าง iframe
+                                const iframe = document.createElement('iframe');
+                                iframe.src = `${item['p_image']}`; // ใช้ item.p_image ตาม API
+                                iframe.frameborder = "0";
+                                iframe.classList.add('w-full', 'h-80', 'object-cover', 'group-hover:scale-105', 'transition-transform', 'duration-700');
+                                projectDiv.appendChild(iframe);
+                        
+                                // สร้าง content
+                                const contentDiv = document.createElement('div');
+                                contentDiv.classList.add('absolute', 'bottom-0', 'left-0', 'p-6', 'z-20', 'w-full');
+                                projectDiv.appendChild(contentDiv);
+                        
+                                // สร้าง title
+                                const title = document.createElement('h3');
+                                title.classList.add('text-2xl', 'font-bold', 'text-white', 'mb-2');
+                                title.textContent = item['p_name']; // ใช้ item.p_name จาก API
+                                contentDiv.appendChild(title);
+                        
+                                // สร้าง description
+                                const description = document.createElement('p');
+                                description.classList.add('text-gray-300', 'mb-4');
+                                description.textContent = item['p_detail']; // ใช้ item.p_detail จาก API
+                                contentDiv.appendChild(description);
+                        
+                                // เพิ่ม projectDiv ลงใน e (element ที่มี id 'project')
+                                e.appendChild(projectDiv);
+                            });
+                            loadingElement.style.display = 'none';  // ซ่อนข้อความ Loading
+                        } catch (error) {
+                            console.error('Error loading data:', error);
+                            loadingElement.textContent = 'Failed to load data';
+                        }
+                    }
+                
+                    loadData();
+                </script>
+                
+                
+                
             </div>
         </section>
+        <!-- ทำต่อด้วย -->
+        <!-- <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full text-sm text-white">React</span>
+            <span class="px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full text-sm text-white">Node.js</span>
+            <span class="px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full text-sm text-white">MongoDB</span>
+        </div> -->
 
         <!-- Contact Section -->
         <section class="animate__animated animate__fadeInUp" id="contact">
@@ -217,7 +294,7 @@
                                 </div>
                                 <div>
                                     <p class="text-gray-400">อีเมล</p>
-                                    <p class="font-medium">sawasdee@example.com</p>
+                                    <p class="font-medium">phanuwat2828@gmail.com</p>
                                 </div>
                             </div>
                             <div class="flex items-start gap-4">
@@ -226,7 +303,7 @@
                                 </div>
                                 <div>
                                     <p class="text-gray-400">โทรศัพท์</p>
-                                    <p class="font-medium">+66 1234 5678</p>
+                                    <p class="font-medium">0985150459</p>
                                 </div>
                             </div>
                             <div class="flex items-start gap-4">
@@ -235,7 +312,7 @@
                                 </div>
                                 <div>
                                     <p class="text-gray-400">ที่อยู่</p>
-                                    <p class="font-medium">กรุงเทพมหานคร, ประเทศไทย</p>
+                                    <p class="font-medium">อุดรธานี, ประเทศไทย</p>
                                 </div>
                             </div>
                         </div>
@@ -258,27 +335,6 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <div>
-                        <h3 class="text-xl font-semibold mb-4">ส่งข้อความถึงฉัน</h3>
-                        <form class="space-y-4">
-                            <div>
-                                <label for="name" class="block mb-2">ชื่อของคุณ</label>
-                                <input type="text" id="name" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-                            </div>
-                            <div>
-                                <label for="email" class="block mb-2">อีเมล</label>
-                                <input type="email" id="email" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-                            </div>
-                            <div>
-                                <label for="message" class="block mb-2">ข้อความ</label>
-                                <textarea id="message" rows="4" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"></textarea>
-                            </div>
-                            <button type="submit" class="w-full py-3 bg-gradient-to-r from-primary to-secondary rounded-lg font-medium hover:shadow-lg hover:shadow-primary/30 transition-all duration-300">
-                                ส่งข้อความ
-                            </button>
-                        </form>
-                    </div>
                 </div>
             </div>
         </section>
@@ -289,12 +345,11 @@
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="mb-6 md:mb-0">
-                    <h3 class="text-xl font-bold gradient-text mb-2">นางสาวสวย เก่งมาก</h3>
+                    <h3 class="text-xl font-bold gradient-text mb-2">Phanuwat Khamtha</h3>
                     <p class="text-gray-400">สร้างสรรค์ผลงานด้วยความมุ่งมั่นและความตั้งใจ</p>
                 </div>
                 <div class="text-center md:text-right">
                     <p class="text-gray-500">&copy; 2023 Portfolio Premium. All rights reserved.</p>
-                    <p class="text-gray-600 text-sm mt-1">Made with ❤️ using Tailwind CSS</p>
                 </div>
             </div>
         </div>
