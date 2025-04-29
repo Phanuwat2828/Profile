@@ -7,6 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <style>
         /* CSS สำหรับ spinner */
         .spinner {
@@ -30,6 +32,10 @@
         }
     </style>
     <script>
+
+
+
+
         tailwind.config = {
             theme: {
                 extend: {
@@ -138,7 +144,7 @@
             <div id="loading1" class="loading w-full flex items-center" style="display: none; text-align: center; font-size: 20px; color: #666;" >
                 <div class="spinner"></div>
             </div>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 " id="mySkill">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6  " id="mySkill">
                 <!-- Skill 1 -->
                 <script>
                      const loadingElement = document.getElementById('loading1');
@@ -160,9 +166,8 @@
                                 iconDiv.classList.add('w-16', 'h-16', 'bg-primary/10', 'rounded-lg', 'flex', 'items-center', 'justify-center', 'mb-4', 'mx-auto', 'group-hover:rotate-12', 'transition-transform', 'duration-500');
                                 
                                 // สร้าง image สำหรับ icon
-                                const iconImg = document.createElement('img');
-                                iconImg.classList.add('fab', 'fa-html5', 'text-3xl', 'text-[#E34F26]', 'rounded-lg');
-                                iconImg.src = item['s_image']; // ปรับตามข้อมูลที่ได้รับจาก API
+                                const iconImg = document.createElement('i');
+                                iconImg.classList.add('fab', `${item['s_image']}`, 'text-3xl', `text-[${item['s_color']}]`, 'rounded-lg');
                                 iconDiv.appendChild(iconImg);
                                 skillCard.appendChild(iconDiv);
                                 
@@ -224,8 +229,9 @@
                 
                             reserved.forEach(function(item) {
                                 // สร้าง div สำหรับแต่ละ project
-                                const projectDiv = document.createElement('div');
+                                const projectDiv = document.createElement('a');
                                 projectDiv.classList.add('group', 'relative', 'overflow-hidden', 'rounded-2xl', 'shadow-2xl');
+                                projectDiv.href = `/preview.html?id=${item['id_p']}`
                                 
                                 // สร้าง background overlay
                                 const overlay = document.createElement('div');

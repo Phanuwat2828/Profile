@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Preview | Phanuwat Khamtha</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .gradient-bg {
+            background: linear-gradient(-45deg, #6366f1, #8b5cf6, #ec4899, #f43f5e);
+            background-size: 400% 400%;
+            animation: gradient 8s ease infinite;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+    <script>
+        let data ;
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+
+        if (!id) {
+            window.location.href = 'index.html'; 
+        }
+        const uri = 'https://script.google.com/macros/s/AKfycbz3Ub6FeejriCLydiqqP-wu5CP_k29ZbEmwOZ4k9mrhBZfXC6vQiGFuKgRToYLWWNU/exec';
+
+        async function load(id){
+            try{
+                const response = await fetch(uri+`?path=projetc&id=${id}`);
+                const reserved = await response.json();
+                console.log(reserved['p_name']);
+                return reserved;
+
+            }catch(err){
+                console.log(err)
+                return err;
+            }
+        }
+        data = load(id);
+
+        
+
+    </script>
+</head>
+<body class="bg-gray-900 text-white font-sans overflow-x-hidden">
+    <!-- Animated Background -->
+    <div class="fixed inset-0 -z-10 overflow-hidden">
+        <div class="absolute inset-0 gradient-bg opacity-20"></div>
+        <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10"></div>
+    </div>
+
+    <!-- Project Preview Section -->
+    <div class="container mx-auto px-4 py-12 max-w-6xl">
+        <!-- Back Button -->
+        <a href="index.html" class="inline-flex items-center mb-8 text-gray-400 hover:text-white transition-colors">
+            <i class="fas fa-arrow-left mr-2"></i> กลับสู่หน้าหลัก
+        </a>
+
+        <!-- Project Header -->
+        <div class="flex flex-col lg:flex-row gap-8 mb-12">
+            <div class="lg:w-2/3">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">ระบบจัดการร้านค้าออนไลน์</h1>
+                <p class="text-xl text-gray-300 mb-6">แพลตฟอร์มครบวงจรสำหรับบริหารธุรกิจอีคอมเมิร์ซด้วยเทคโนโลยีสมัยใหม่</p>
+                
+                <div class="flex flex-wrap gap-3 mb-8" id="tools_1">
+                    <script>
+
+
+                    </script>
+                    <span class="px-4 py-2 bg-gray-800 rounded-full text-sm">React</span>
+                    <span class="px-4 py-2 bg-gray-800 rounded-full text-sm">Node.js</span>
+                    <span class="px-4 py-2 bg-gray-800 rounded-full text-sm">MongoDB</span>
+                    <span class="px-4 py-2 bg-gray-800 rounded-full text-sm">Tailwind CSS</span>
+                    <span class="px-4 py-2 bg-gray-800 rounded-full text-sm">Redux</span>
+                </div>
+                
+                <div class="flex flex-wrap gap-4">
+                    <a href="#" class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg font-medium hover:shadow-lg hover:shadow-indigo-500/30 transition-all">
+                        <i class="fas fa-globe mr-2"></i> ดูเว็บไซต์
+                    </a>
+                    <a href="#" class="px-6 py-3 border border-gray-600 rounded-lg font-medium hover:bg-gray-800 transition-all">
+                        20,000฿
+                    </a>
+                </div>
+            </div>
+            
+            <div class="lg:w-1/3">
+                <div class="glass-card p-6 rounded-xl">
+                    <h3 class="text-xl font-semibold mb-4">รายละเอียดโครงการ</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-calendar-alt text-indigo-400 mt-1 mr-3"></i>
+                            <div>
+                                <p class="text-gray-400 text-sm">ระยะเวลา</p>
+                                <p>3 เดือน</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-tasks text-indigo-400 mt-1 mr-3"></i>
+                            <div>
+                                <p class="text-gray-400 text-sm">ประเภท</p>
+                                <p>เว็บแอปพลิเคชัน</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-code-branch text-indigo-400 mt-1 mr-3"></i>
+                            <div>
+                                <p class="text-gray-400 text-sm">บทบาท</p>
+                                <p>Full-stack Developer</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project Gallery -->
+        <div class="mb-16">
+            <h2 class="text-2xl font-bold mb-6">ภาพหน้าจอโครงการ</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="rounded-xl overflow-hidden border border-gray-700 hover:border-indigo-500 transition-all">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                         alt="Project Screenshot 1" 
+                         class="w-full h-auto object-cover">
+                </div>
+                <div class="rounded-xl overflow-hidden border border-gray-700 hover:border-indigo-500 transition-all">
+                    <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                         alt="Project Screenshot 2" 
+                         class="w-full h-auto object-cover">
+                </div>
+                <div class="rounded-xl overflow-hidden border border-gray-700 hover:border-indigo-500 transition-all">
+                    <img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                         alt="Project Screenshot 3" 
+                         class="w-full h-auto object-cover">
+                </div>
+                <div class="rounded-xl overflow-hidden border border-gray-700 hover:border-indigo-500 transition-all">
+                    <img src="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1472&q=80" 
+                         alt="Project Screenshot 4" 
+                         class="w-full h-auto object-cover">
+                </div>
+            </div>
+        </div>
+
+        <!-- Project Details -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+            <div class="lg:col-span-2">
+                <h2 class="text-2xl font-bold mb-6">เกี่ยวกับโครงการ</h2>
+                <div class="space-y-6">
+                    <p>ระบบจัดการร้านค้าออนไลน์นี้พัฒนาขึ้นเพื่อตอบโจทย์ธุรกิจอีคอมเมิร์ซยุคใหม่ ที่ต้องการเครื่องมือครบวงจรสำหรับบริหารจัดการทุกด้านของร้านค้า ตั้งแต่การเพิ่มสินค้า จัดการสต็อก ไปจนถึงการวิเคราะห์ยอดขาย</p>
+                </div>
+            </div>
+            
+            <div>
+                <div class="glass-card p-6 rounded-xl sticky top-6">
+                    <h3 class="text-xl font-semibold mb-4">เทคโนโลยีที่ใช้</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-center">
+                            <div class="w-10 h-10 bg-indigo-500/10 rounded-lg flex items-center justify-center mr-3">
+                                <i class="fab fa-react text-indigo-400"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">React.js</p>
+                                
+                            </div>
+                        </li>
+                        <li class="flex items-center">
+                            <div class="w-10 h-10 bg-indigo-500/10 rounded-lg flex items-center justify-center mr-3">
+                                <i class="fab fa-node-js text-green-500"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">Node.js</p>
+                               
+                            </div>
+                        </li>
+                        <li class="flex items-center">
+                            <div class="w-10 h-10 bg-indigo-500/10 rounded-lg flex items-center justify-center mr-3">
+                                <i class="fas fa-database text-yellow-500"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">MongoDB</p>
+                            </div>
+                        </li>
+                        <li class="flex items-center">
+                            <div class="w-10 h-10 bg-indigo-500/10 rounded-lg flex items-center justify-center mr-3">
+                                <i class="fas fa-bolt text-purple-500"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">Redux</p>
+                        
+                            </div>
+                        </li>
+                        <li class="flex items-center">
+                            <div class="w-10 h-10 bg-indigo-500/10 rounded-lg flex items-center justify-center mr-3">
+                                <i class="fab fa-aws text-orange-500"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">AWS</p>
+                               
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Testimonial -->
+
+        <!-- Related Projects -->
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 py-8 border-t border-gray-700">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <h3 class="text-xl font-bold gradient-text mb-2">Phanuwat Khamtha</h3>
+                    <p class="text-gray-400">สร้างสรรค์ผลงานด้วยความมุ่งมั่นและความตั้งใจ</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white text-xl transition-colors">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-blue-400 text-xl transition-colors">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-pink-500 text-xl transition-colors">
+                        <i class="fab fa-dribbble"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-green-400 text-xl transition-colors">
+                        <i class="fab fa-line"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="mt-8 text-center text-gray-500 text-sm">
+                <p>&copy; 2023 Phanuwat Khamtha. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple animation for elements when they come into view
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateOnScroll = () => {
+                const elements = document.querySelectorAll('.glass-card, .sticky');
+                elements.forEach(el => {
+                    const elementTop = el.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (elementTop < windowHeight - 100) {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }
+                });
+            };
+            
+            window.addEventListener('scroll', animateOnScroll);
+            animateOnScroll(); // Run once on load
+        });
+    </script>
+</body>
+</html>
