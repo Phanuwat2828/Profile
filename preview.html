@@ -21,7 +21,7 @@
             color: transparent;
         }
         .gradient-bg {
-            background: linear-gradient(-45deg, #6366f1, #8b5cf6, #ec4899, #f43f5e);
+            background: linear-gradient(-45deg, #6366f1, #8b5cf6, #ec4899);
             background-size: 400% 400%;
             animation: gradient 8s ease infinite;
         }
@@ -39,27 +39,108 @@
         if (!id) {
             window.location.href = 'index.html'; 
         }
-        const uri = 'https://script.google.com/macros/s/AKfycbz3Ub6FeejriCLydiqqP-wu5CP_k29ZbEmwOZ4k9mrhBZfXC6vQiGFuKgRToYLWWNU/exec';
+        const uri = 'https://script.google.com/macros/s/AKfycbxXwKV3L_PwhuIfBoev4qNEWjObNcmv8INA00AOOSD1Odl9LmCo-lj93mno3rWsUCk/exec';
 
         async function load(id){
             try{
-                const response = await fetch(uri+`?path=projetc&id=${id}`);
+                const response = await fetch(uri+`?path=project&id=${id}`);
                 const reserved = await response.json();
-                console.log(reserved['p_name']);
-                return reserved;
+                document.getElementById('loading').style.display = 'none'
+                console.log(reserved);
+                document.getElementById('name_p').innerText = reserved['p_name'];
+                document.getElementById('detail_p').innerText = reserved['p_detail'];
 
+                // detail
+                document.getElementById('time_p').innerText = reserved['p_time'];
+                document.getElementById('position_p').innerText = reserved['p_position'];
+                document.getElementById('type_p').innerText = reserved['p_type'];
+
+
+                // image
+                const imagecontainer = document.getElementById('image_p');
+                const data_image = reserved['image'];
+                data_image.forEach(function(imageUrl) {
+                   
+                    const wrapper = document.createElement('div');
+                    wrapper.className = "rounded-xl overflow-hidden border border-gray-700 hover:border-indigo-500 transition-all";
+                    const iframe = document.createElement('iframe');
+                    iframe.src = imageUrl; 
+                    iframe.className = "w-full h-96 object-cover ";
+                    iframe.setAttribute("frameborder", "0");
+
+             
+                    wrapper.appendChild(iframe);
+                    imagecontainer.appendChild(wrapper);
+                });
+
+                // path&price
+                document.getElementById('path_').href = reserved['p_url']
+                document.getElementById('price').innerHTML = reserved['p_price'] + ' ฿'
+
+                // tools 
+                const toolscontainer1 = document.getElementById('tools_1');
+                const toolscontainer2 = document.getElementById('tools_2');
+                const tool = reserved['tools'];
+                tool.forEach(function(item){
+
+                    // tools1
+                    const span = document.createElement('span');
+                    span.className = 'px-4 py-2 bg-gray-800 rounded-full text-sm';
+                    span.textContent = item['s_name'];
+                    toolscontainer1.appendChild(span); 
+
+                    // tools2
+                    const li = document.createElement('li');
+                    li.className = 'flex items-center';
+
+                    // สร้าง div ไอคอน
+                    const iconDiv = document.createElement('div');
+                    iconDiv.className = 'w-10 h-10 bg-indigo-500/10 rounded-lg flex items-center justify-center mr-3';
+
+                    const icon = document.createElement('i');
+                    icon.className = `fab ${item['s_image']} text-[${item['s_color']}]`;
+
+                    iconDiv.appendChild(icon);
+
+                    // สร้าง div สำหรับข้อความ
+                    const textDiv = document.createElement('div');
+                    const p = document.createElement('p');
+                    p.className = 'font-medium';
+                    p.textContent = item['s_name'];
+
+                    textDiv.appendChild(p);
+
+                    // ประกอบเข้ากัน
+                    li.appendChild(iconDiv);
+                    li.appendChild(textDiv);
+
+                    // เพิ่มลงใน ul หรือ container ที่คุณต้องการ
+                    toolscontainer2.appendChild(li);
+                })
+
+                // aboute
+                document.getElementById('about').innerText = reserved['p_about'];
+
+                
             }catch(err){
-                console.log(err)
-                return err;
+                console.log(err);
             }
         }
-        data = load(id);
+        
 
         
 
     </script>
 </head>
 <body class="bg-gray-900 text-white font-sans overflow-x-hidden">
+    <div class="fixed inset-0 flex flex-col items-center justify-center bg-white z-50" id="loading">
+        <div class="flex space-x-4">
+          <div class="w-6 h-6 rounded-full gradient-bg  animate-bounce"></div>
+          <div class="w-6 h-6 rounded-full gradient-bg  animate-bounce" style="animation-delay: 0.2s"></div>
+          <div class="w-6 h-6 rounded-full gradient-bg  animate-bounce" style="animation-delay: 0.4s"></div>
+        </div>
+        <p class="gradient-text mt-4 text-xl text-center">Loading..</p>
+      </div>
     <!-- Animated Background -->
     <div class="fixed inset-0 -z-10 overflow-hidden">
         <div class="absolute inset-0 gradient-bg opacity-20"></div>
@@ -75,28 +156,23 @@
 
         <!-- Project Header -->
         <div class="flex flex-col lg:flex-row gap-8 mb-12">
-            <div class="lg:w-2/3">
-                <h1 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">ระบบจัดการร้านค้าออนไลน์</h1>
-                <p class="text-xl text-gray-300 mb-6">แพลตฟอร์มครบวงจรสำหรับบริหารธุรกิจอีคอมเมิร์ซด้วยเทคโนโลยีสมัยใหม่</p>
+            <div class="lg:w-2/3 " >
+             
+                <h1 class="text-4xl md:text-5xl font-bold mb-4 gradient-text" id="name_p"></h1>
+                <p class="text-xl text-gray-300 mb-6" id="detail_p"></p>
                 
                 <div class="flex flex-wrap gap-3 mb-8" id="tools_1">
-                    <script>
-
-
-                    </script>
-                    <span class="px-4 py-2 bg-gray-800 rounded-full text-sm">React</span>
-                    <span class="px-4 py-2 bg-gray-800 rounded-full text-sm">Node.js</span>
-                    <span class="px-4 py-2 bg-gray-800 rounded-full text-sm">MongoDB</span>
-                    <span class="px-4 py-2 bg-gray-800 rounded-full text-sm">Tailwind CSS</span>
-                    <span class="px-4 py-2 bg-gray-800 rounded-full text-sm">Redux</span>
+                    
+                    <!-- <span class="px-4 py-2 bg-gray-800 rounded-full text-sm">React</span> -->
+                   
                 </div>
                 
                 <div class="flex flex-wrap gap-4">
-                    <a href="#" class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg font-medium hover:shadow-lg hover:shadow-indigo-500/30 transition-all">
+                    <a id="path_" class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg font-medium hover:shadow-lg hover:shadow-indigo-500/30 transition-all">
                         <i class="fas fa-globe mr-2"></i> ดูเว็บไซต์
                     </a>
-                    <a href="#" class="px-6 py-3 border border-gray-600 rounded-lg font-medium hover:bg-gray-800 transition-all">
-                        20,000฿
+                    <a id="price" class="px-6 py-3 border border-gray-600 rounded-lg font-medium hover:bg-gray-800 transition-all">
+                        
                     </a>
                 </div>
             </div>
@@ -109,21 +185,21 @@
                             <i class="fas fa-calendar-alt text-indigo-400 mt-1 mr-3"></i>
                             <div>
                                 <p class="text-gray-400 text-sm">ระยะเวลา</p>
-                                <p>3 เดือน</p>
+                                <p id="time_p"></p>
                             </div>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-tasks text-indigo-400 mt-1 mr-3"></i>
                             <div>
                                 <p class="text-gray-400 text-sm">ประเภท</p>
-                                <p>เว็บแอปพลิเคชัน</p>
+                                <p id="type_p"></p>
                             </div>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-code-branch text-indigo-400 mt-1 mr-3"></i>
                             <div>
                                 <p class="text-gray-400 text-sm">บทบาท</p>
-                                <p>Full-stack Developer</p>
+                                <p id="position_p"></p>
                             </div>
                         </li>
                     </ul>
@@ -134,27 +210,8 @@
         <!-- Project Gallery -->
         <div class="mb-16">
             <h2 class="text-2xl font-bold mb-6">ภาพหน้าจอโครงการ</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="rounded-xl overflow-hidden border border-gray-700 hover:border-indigo-500 transition-all">
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
-                         alt="Project Screenshot 1" 
-                         class="w-full h-auto object-cover">
-                </div>
-                <div class="rounded-xl overflow-hidden border border-gray-700 hover:border-indigo-500 transition-all">
-                    <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
-                         alt="Project Screenshot 2" 
-                         class="w-full h-auto object-cover">
-                </div>
-                <div class="rounded-xl overflow-hidden border border-gray-700 hover:border-indigo-500 transition-all">
-                    <img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
-                         alt="Project Screenshot 3" 
-                         class="w-full h-auto object-cover">
-                </div>
-                <div class="rounded-xl overflow-hidden border border-gray-700 hover:border-indigo-500 transition-all">
-                    <img src="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1472&q=80" 
-                         alt="Project Screenshot 4" 
-                         class="w-full h-auto object-cover">
-                </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="image_p">
+              
             </div>
         </div>
 
@@ -163,50 +220,17 @@
             <div class="lg:col-span-2">
                 <h2 class="text-2xl font-bold mb-6">เกี่ยวกับโครงการ</h2>
                 <div class="space-y-6">
-                    <p>ระบบจัดการร้านค้าออนไลน์นี้พัฒนาขึ้นเพื่อตอบโจทย์ธุรกิจอีคอมเมิร์ซยุคใหม่ ที่ต้องการเครื่องมือครบวงจรสำหรับบริหารจัดการทุกด้านของร้านค้า ตั้งแต่การเพิ่มสินค้า จัดการสต็อก ไปจนถึงการวิเคราะห์ยอดขาย</p>
+                    <p id="about"></p>
                 </div>
             </div>
             
             <div>
                 <div class="glass-card p-6 rounded-xl sticky top-6">
                     <h3 class="text-xl font-semibold mb-4">เทคโนโลยีที่ใช้</h3>
-                    <ul class="space-y-4">
-                        <li class="flex items-center">
-                            <div class="w-10 h-10 bg-indigo-500/10 rounded-lg flex items-center justify-center mr-3">
-                                <i class="fab fa-react text-indigo-400"></i>
-                            </div>
-                            <div>
-                                <p class="font-medium">React.js</p>
-                                
-                            </div>
-                        </li>
-                        <li class="flex items-center">
-                            <div class="w-10 h-10 bg-indigo-500/10 rounded-lg flex items-center justify-center mr-3">
-                                <i class="fab fa-node-js text-green-500"></i>
-                            </div>
-                            <div>
-                                <p class="font-medium">Node.js</p>
-                               
-                            </div>
-                        </li>
-                        <li class="flex items-center">
-                            <div class="w-10 h-10 bg-indigo-500/10 rounded-lg flex items-center justify-center mr-3">
-                                <i class="fas fa-database text-yellow-500"></i>
-                            </div>
-                            <div>
-                                <p class="font-medium">MongoDB</p>
-                            </div>
-                        </li>
-                        <li class="flex items-center">
-                            <div class="w-10 h-10 bg-indigo-500/10 rounded-lg flex items-center justify-center mr-3">
-                                <i class="fas fa-bolt text-purple-500"></i>
-                            </div>
-                            <div>
-                                <p class="font-medium">Redux</p>
+                    <ul class="space-y-4" id="tools_2">
                         
-                            </div>
-                        </li>
-                        <li class="flex items-center">
+                       
+                        <!-- <li class="flex items-center">
                             <div class="w-10 h-10 bg-indigo-500/10 rounded-lg flex items-center justify-center mr-3">
                                 <i class="fab fa-aws text-orange-500"></i>
                             </div>
@@ -214,7 +238,7 @@
                                 <p class="font-medium">AWS</p>
                                
                             </div>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>
@@ -235,18 +259,10 @@
                     <p class="text-gray-400">สร้างสรรค์ผลงานด้วยความมุ่งมั่นและความตั้งใจ</p>
                 </div>
                 <div class="flex space-x-6">
-                    <a href="#" class="text-gray-400 hover:text-white text-xl transition-colors">
+                    <a href="https://github.com/phanuwat2828" class="text-gray-400 hover:text-white text-xl transition-colors">
                         <i class="fab fa-github"></i>
                     </a>
-                    <a href="#" class="text-gray-400 hover:text-blue-400 text-xl transition-colors">
-                        <i class="fab fa-linkedin"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-pink-500 text-xl transition-colors">
-                        <i class="fab fa-dribbble"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-green-400 text-xl transition-colors">
-                        <i class="fab fa-line"></i>
-                    </a>
+                   
                 </div>
             </div>
             <div class="mt-8 text-center text-gray-500 text-sm">
@@ -274,6 +290,7 @@
             window.addEventListener('scroll', animateOnScroll);
             animateOnScroll(); // Run once on load
         });
+        load(id);
     </script>
 </body>
 </html>
